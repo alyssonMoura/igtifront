@@ -1,7 +1,7 @@
 import http from '../http-common';
 
 const getAll = () => {
-  return http.get('/grade');
+  return http.get('/grades');
 };
 
 const get = (id) => {
@@ -28,7 +28,7 @@ const findByName = (name) => {
   return http.get(`/grade?name=${name}`);
 };
 
-export default {
+const GradeService = {
   getAll,
   get,
   create,
@@ -37,3 +37,5 @@ export default {
   removeAll,
   findByName,
 };
+
+export default GradeService;

@@ -1,18 +1,18 @@
 {
   "name": "grade-app",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
-    "axios": "^0.19.2",
+    "axios": "^1.13.5",
     "bootstrap": "^4.5.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1",
-    "serve": "^11.3.2"
+    "react-scripts": "^5.0.1",
+    "serve": "^14.2.5"
   },
   "scripts": {
     "dev": "react-scripts start",
@@ -20,7 +20,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run build",
+    "json-server": "json-server --watch db.json --port 3003",
+    "dev:server": "concurrently \"npm run json-server\" \"npm run dev\""
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -36,5 +38,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "json-server": "^1.0.0-beta.9"
   }
 }
