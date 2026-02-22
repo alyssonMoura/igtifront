@@ -16,13 +16,14 @@
   },
   "scripts": {
     "dev": "react-scripts start",
-    "start": "react-scripts start",
+    "start": "NODE_OPTIONS='--openssl-legacy-provider' react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "heroku-postbuild": "npm run build",
     "json-server": "json-server --watch db.json --port 3003",
-    "dev:server": "concurrently \"npm run json-server\" \"npm run dev\""
+    "dev:server": "concurrently \"npm run json-server\" \"npm run dev\"",
+    "start:legacy": "NODE_OPTIONS='--openssl-legacy-provider' react-scripts start"
   },
   "eslintConfig": {
     "extends": "react-app"
