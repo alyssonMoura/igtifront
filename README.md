@@ -1,68 +1,140 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Sistema de Gerenciamento de Notas - Grade App
 
-## Available Scripts
+## Visão Geral
 
-In the project directory, you can run:
+Este é um **Sistema de Gerenciamento de Notas** desenvolvido como um **CRUD (Create, Read, Update, Delete)** em React. O projeto foi criado originalmente em **2019/2020** como parte da entrega final do **curso fullstack da IGTI**.
 
-### `npm start`
+## Tecnologias Utilizadas
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Frontend
+- **React** 16.13.1
+- **React Router DOM** 5.2.0
+- **Bootstrap** 4.5.0
+- **Axios** 1.13.5 (para requisições HTTP)
+- **Create React App** 5.0.1
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### Backend (Mock)
+- **igtibackend** outra parte do projeto
+#### Após o update
+- **igtibackend** - Simula uma API REST para desenvolvimento
+- **db.json** - Arquivo de dados JSON
 
-### `npm test`
+## Funcionalidades
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Listagem de Notas**: Visualizar todas as notas cadastradas
+- **Detalhes da Nota**: Visualizar informações detalhadas de uma nota específica
+- **Cadastro de Notas**: Adicionar novas notas ao sistema
+- **Edição de Notas**: Atualizar informações de notas existentes
+- **Exclusão de Notas**: Remover notas do sistema
+- **Navegação**: Sistema de rotas para diferentes funcionalidades
 
-### `npm run build`
+## Estrutura do Projeto
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+src/
+├── components/
+│   ├── AddGrade.js      # Formulário de cadastro de notas
+│   ├── Grade.js         # Visualização de detalhes da nota
+│   └── GradeList.js     # Lista de todas as notas
+├── services/
+│   └── GradeService.js  # Camada de comunicação com a API
+├── http-common.js       # Configuração do cliente HTTP
+├── App.js              # Componente principal da aplicação
+└── index.js            # Ponto de entrada da aplicação
+```
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## Instalação e Execução
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Pré-requisitos
+- Node.js (versão 12 ou superior)
+- npm ou yarn
 
-### `npm run eject`
+### Instalação de Dependências
+```bash
+npm install
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Execução em Desenvolvimento
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Para iniciar o desenvolvimento, execute ambos o frontend e o backend:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```bash
+# Iniciar o JSON Server (backend mock) e o React (frontend) simultaneamente
+npm run dev:server
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Alternativamente, você pode iniciar cada serviço separadamente:
 
-## Learn More
+```bash
+# Em um terminal - iniciar o JSON Server
+npm run json-server
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Em outro terminal - iniciar o React
+npm start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Comandos Disponíveis
 
-### Code Splitting
+- `npm start` - Inicia o frontend em modo desenvolvimento
+- `npm run dev:server` - Inicia ambos frontend e backend simultaneamente
+- `npm run json-server` - Inicia apenas o JSON Server (backend mock)
+- `npm run build` - Cria a versão de produção
+- `npm test` - Executa os testes
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## Uso da Aplicação
 
-### Analyzing the Bundle Size
+1. **Listar Notas**: Acesse a página inicial para ver todas as notas cadastradas
+2. **Adicionar Nota**: Clique em "Add" para cadastrar uma nova nota
+3. **Visualizar Detalhes**: Clique no nome de uma nota para ver seus detalhes
+4. **Editar/Excluir**: Use os botões disponíveis na página de detalhes
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+## Modelo de Dados
 
-### Making a Progressive Web App
+Cada nota contém os seguintes campos:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+```json
+{
+  "id": "1",
+  "name": "Matemática",
+  "subject": 8.5,
+  "type": "Prof. Silva",
+  "value": "500"
+}
+```
 
-### Advanced Configuration
+**Observação**: Existe uma inconsistência no modelo de dados onde:
+- O campo `subject` armazena o valor numérico da nota
+- O campo `type` armazena o nome do professor
+- O campo `value` contém um valor fixo "500" (placeholder)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+## Problemas Conhecidos
 
-### Deployment
+⚠️ **Atenção**: Este projeto possui alguns problemas que precisam de atenção:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+1. **Inconsistência no Modelo de Dados**: Os nomes dos campos não correspondem ao que armazenam
+2. **Endpoints da API**: O serviço chama endpoints `/grade` mas o JSON Server usa `/grades`
+3. **Dependências Desatualizadas**: O React 16.13.1 é uma versão antiga (atualmente estamos na versão 18+)
+4. **Configuração de Rotas**: Pode haver conflitos nas rotas devido à inconsistência dos endpoints
 
-### `npm run build` fails to minify
+## Atualizações Recentes
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+### Atualização com IA (Ferramenta Cline)
+
+Este projeto foi recentemente atualizado utilizando a ferramenta **Cline**, uma extensão de IA para VSCode. As principais melhorias incluem:
+
+- **Criação do db.json**: Arquivo de dados mock para simular o backend
+- **Configuração de Scripts**: Adição de scripts para execução simultânea do frontend e backend
+- **Melhorias na Estrutura**: Organização dos arquivos e dependências
+
+### Histórico de Versões
+
+- **2019/2020**: Versão original desenvolvida para o curso fullstack da IGTI
+- **2026**: Atualização com ferramenta Cline e criação do db.json
+
+## Contribuição
+
+Este projeto foi desenvolvido como trabalho acadêmico e está disponível para estudos e referências. Caso deseje contribuir para a resolução dos problemas conhecidos, sinta-se à vontade para abrir issues ou pull requests.
+
+## Licença
+
+Este projeto foi desenvolvido para fins educacionais e não possui licença específica.
