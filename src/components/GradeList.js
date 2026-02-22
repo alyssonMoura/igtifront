@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import GradeDataService from '../services/GradeService';
 import { Link } from 'react-router-dom';
+import { validateSearchInput } from '../utils/validation';
 
 const GradeList = () => {
   const [grade, setGrade] = useState([]);
   const [currentGrade, setCurrentGrade] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [searchName, setSearchName] = useState('');
+  const [searchError, setSearchError] = useState('');
 
   useEffect(() => {
     retrieveGrade();
@@ -15,6 +17,11 @@ const GradeList = () => {
   const onChangeSearchName = (e) => {
     const searchName = e.target.value;
     setSearchName(searchName);
+    
+    // Clear error when user starts typing
+    if (searchError) {
+      setSearchError('');
+    }
   };
 
   const retrieveGrade = () => {
@@ -51,13 +58,26 @@ const GradeList = () => {
   };
 
   const findByName = () => {
-    GradeDataService.findByName(searchName)
+    // Validate search input
+    const sanitizedSearch = validateSearchInput(searchName);
+    
+    if (!sanitizedSearch) {
+      setSearchError('Please enter a valid search term');
+      return;
+    }
+    
+    setSearchError('');
+    
+    GradeDataService.findByName(sanitizedSearch)
       .then((response) => {
         setGrade(response.data);
         console.log(response.data);
       })
       .catch((e) => {
-        console.log(e);
+        console.log('Error searching grades:', e);
+        if (e.message === 'Invalid search input') {
+          setSearchError('Invalid search input detected');
+        }
       });
   };
 
@@ -67,10 +87,15 @@ const GradeList = () => {
         <div className="input-group mb-3">
           <input
             type="text"
-            className="form-control"
+            className={`form-control ${searchError ? 'is-invalid' : ''}`}
             placeholder="Search by name"
             value={searchName}
             onChange={onChangeSearchName}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                findByName();
+              }
+            }}
           />
           <div className="input-group-append">
             <button
@@ -81,6 +106,11 @@ const GradeList = () => {
               Search
             </button>
           </div>
+          {searchError && (
+            <div className="invalid-feedback">
+              {searchError}
+            </div>
+          )}
         </div>
       </div>
       <div className="col-md-6">
