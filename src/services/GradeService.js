@@ -1,23 +1,54 @@
 import http from '../http-common';
+import { validateId, validateSearchInput, validateGradeData } from '../utils/validation';
 
 const getAll = () => {
-  return http.get('/grades');
+  return http.get('/grade');
 };
 
 const get = (id) => {
-  return http.get(`/grade/${id}`);
+  // Validate ID parameter
+  const idValidation = validateId(id);
+  if (!idValidation.isValid) {
+    throw new Error(idValidation.error);
+  }
+  
+  return http.get(`/grade/${idValidation.value}`);
 };
 
 const create = (data) => {
-  return http.post('/grade', data);
+  // Validate grade data
+  const validation = validateGradeData(data);
+  if (!validation.isValid) {
+    throw new Error('Invalid grade data: ' + JSON.stringify(validation.errors));
+  }
+  
+  return http.post('/grade', validation.data);
 };
 
 const update = (id, data) => {
-  return http.put(`/grade/${id}`, data);
+  // Validate ID parameter
+  const idValidation = validateId(id);
+  if (!idValidation.isValid) {
+    throw new Error(idValidation.error);
+  }
+  
+  // Validate grade data
+  const validation = validateGradeData(data);
+  if (!validation.isValid) {
+    throw new Error('Invalid grade data: ' + JSON.stringify(validation.errors));
+  }
+  
+  return http.put(`/grade/${idValidation.value}`, validation.data);
 };
 
 const remove = (id) => {
-  return http.delete(`/grade/${id}`);
+  // Validate ID parameter
+  const idValidation = validateId(id);
+  if (!idValidation.isValid) {
+    throw new Error(idValidation.error);
+  }
+  
+  return http.delete(`/grade/${idValidation.value}`);
 };
 
 const removeAll = () => {
@@ -25,7 +56,14 @@ const removeAll = () => {
 };
 
 const findByName = (name) => {
-  return http.get(`/grade?name=${name}`);
+  // Validate and sanitize search input
+  const sanitizedSearch = validateSearchInput(name);
+  
+  if (!sanitizedSearch) {
+    throw new Error('Invalid search input');
+  }
+  
+  return http.get(`/grade?name=${encodeURIComponent(sanitizedSearch)}`);
 };
 
 const GradeService = {

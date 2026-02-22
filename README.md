@@ -16,8 +16,7 @@ Este é um **Sistema de Gerenciamento de Notas** desenvolvido como um **CRUD (Cr
 ### Backend (Mock)
 - **igtibackend** outra parte do projeto
 #### Após o update
-- **igtibackend** - Simula uma API REST para desenvolvimento
-- **db.json** - Arquivo de dados JSON
+- Simula uma API REST para desenvolvimento- **db.json** - Arquivo de dados JSON
 
 ## Funcionalidades
 
